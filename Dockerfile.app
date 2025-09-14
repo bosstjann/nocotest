@@ -12,12 +12,12 @@ ARG TZ=UTC
 ENV APP_KEY=${APP_KEY} \
     TZ=${TZ} \
     DB_DIALECT=postgres \
-    DB_HOST=postgres \
+    DB_HOST=datarizen-nocobase-lbjwke \
     DB_PORT=5432 \
     DB_DATABASE=nocobase \
     DB_USER=nocobase \
     DB_PASSWORD=nocobase
-
+# postgresql://nocobase:nocobase@datarizen-nocobase-lbjwke:5432/nocobase
 # Storage volume as used in docker-compose (./storage mapped to /app/nocobase/storage)
 VOLUME ["/app/nocobase/storage"]
 
