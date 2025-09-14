@@ -1,0 +1,28 @@
+# syntax=docker/dockerfile:1
+# Database image derived from the compose service "postgres".
+# Adds required config (wal_level=logical) and sets up default env variables.
+# NOTE: For production, move user/password to secrets or environment variables, not baked into the image.
+
+FROM postgres:16
+
+# Build-time args (optional overrides)
+ARG POSTGRES_USER=nocobase
+ARG POSTGRES_PASSWORD=nocobase
+ARG POSTGRES_DB=nocobase
+
+# Runtime env (can still be overridden with -e) - avoid hard-coding secrets for production.
+ENV POSTGRES_USER=${POSTGRES_USER} \
+    POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
+    POSTGRES_DB=${POSTGRES_DB}
+
+# Persist database storage (as in compose mapping to ./storage/db/postgres)
+VOLUME ["/var/lib/postgresql/data"]
+
+# Expose default Postgres port
+EXPOSE 5432
+
+# Add any custom initialization scripts (uncomment and add files to ./db-init-scripts)
+# COPY ./db-init-scripts/ /docker-entrypoint-initdb.d/
+
+# Use the same command from docker-compose (enable logical replication)
+CMD ["postgres", "-c", "wal_level=logical"]

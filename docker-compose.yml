@@ -6,7 +6,10 @@ networks:
 
 services:
   app:
-    image: nocobase/nocobase:latest-full
+    # Built locally from Dockerfile.app
+    build:
+      context: .
+      dockerfile: Dockerfile.app
     restart: always
     networks:
       - nocobase
@@ -39,7 +42,10 @@ services:
 
   # If using an existing database server, postgres service can be omitted
   postgres:
-    image: postgres:16
+    # Built locally from Dockerfile.db
+    build:
+      context: .
+      dockerfile: Dockerfile.db
     restart: always
     command: postgres -c wal_level=logical
     environment:
